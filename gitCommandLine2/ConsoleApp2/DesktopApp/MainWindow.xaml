@@ -7,12 +7,16 @@
         mc:Ignorable="d"
         Title="GitClient001" Height="450" Width="800">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="88,30,0,0" TextWrapping="Wrap" Text="Working Directory" VerticalAlignment="Top" Width="314" Name="GitPath" RenderTransformOrigin="0.499,0.469" GotFocus="GitPath_GotFocus" />
-        <Button Content="Submit" HorizontalAlignment="Left" Margin="425,29,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Name="SetDir"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="88,19,0,0" TextWrapping="Wrap" Text="Working Directory" VerticalAlignment="Top" Width="314" Name="GitPath" RenderTransformOrigin="0.499,0.469" GotFocus="GitPath_GotFocus" />
+        <Button Content="Submit" HorizontalAlignment="Left" Margin="425,18,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Name="SetDir"/>
         <TextBox HorizontalAlignment="Left" Height="268" Margin="425,89,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="295" Name="Output" Foreground="Yellow" Background="Black"/>
         <TextBox HorizontalAlignment="Left" Height="268" Margin="88,89,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="314" Name="Directory"/>
         <Button Content="Update" HorizontalAlignment="Left" Margin="88,362,0,0" VerticalAlignment="Top" Width="75" Click="Update_Click"/>
-        <Button Content="Add All" HorizontalAlignment="Left" Margin="177,362,0,0" VerticalAlignment="Top" Width="75" Name="AddAll" Visibility="Hidden" Click="AddAll_Click"/>
+        <Button Content="Stage All" HorizontalAlignment="Left" Margin="177,362,0,0" VerticalAlignment="Top" Width="75" Name="AddAll" Visibility="Hidden" Click="AddAll_Click"/>
+        <Button Content="Commit Staged" HorizontalAlignment="Left" Margin="282,362,0,0" VerticalAlignment="Top" Width="120" Click="Commit_Click" Name="CommitBtn"/>
+        <TextBox HorizontalAlignment="Left" Height="22" Margin="88,53,0,0" TextWrapping="Wrap" Text="Remote Repository" VerticalAlignment="Top" Width="314" Name="RemotePath" GotFocus="RemotePath_GotFocus"/>
+        <Button Content="Push" HorizontalAlignment="Left" Height="20" Margin="425,362,0,0" VerticalAlignment="Top" Width="86" Click="Push"/>
+        <Button Content="Pull" HorizontalAlignment="Left" Height="20" Margin="525,362,0,0" VerticalAlignment="Top" Width="86" Click="Pull"/>
 
     </Grid>
 </Window>
