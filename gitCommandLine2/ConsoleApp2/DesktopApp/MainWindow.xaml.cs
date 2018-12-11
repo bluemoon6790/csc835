@@ -52,7 +52,9 @@ namespace DesktopApp
 
             // Update status
             Output.Text = gc.gitCommand("status");
-            Directory.Text = gc.gitCommand("ls-files -t") + gc.gitCommand("ls-files --other"); 
+            Directory.Text = gc.gitCommand("ls-files -t") + gc.gitCommand("ls-files --other");
+
+            UpdateBranches();
 
         }
 
@@ -70,6 +72,10 @@ namespace DesktopApp
             string line;
             string status = gc.gitCommand("status -s");
             StringReader read = new StringReader(status);
+            
+            // Want to compose a list of files w/ changes.
+            string toAdd = "", toCommit = "";
+
             bool hasAdd = false;
             bool hasCommit = false;
             while (true)
@@ -77,14 +83,22 @@ namespace DesktopApp
                 line = read.ReadLine();
                 if (line != null)
                 {
-                    if (line.Substring(1, 1) == "M")
+                    if (line.Substring(1, 1) == "M" || line.Substring(0, 2) == "??") // Check for modified files and new files
                     {
                         AddAll.Visibility = Visibility.Visible;
                         hasAdd = true;
+                        toAdd += (line.Substring(0, 2) == "??" ? "[+]" : "[M]");
+                        toAdd += " " + line.Substring(2) + "\r\n";
                     }
                     if (line.Substring(0,1) == "M")
                     {
                         hasCommit = true;
+                        toCommit += "[C]" + line.Substring(2) + "\r\n";
+                    }
+                    if (line.Substring(0, 1) == "A")
+                    {
+                        hasCommit = true;
+                        toCommit += "[A]" + line.Substring(2) + "\r\n";
                     }
                 }
                 else
@@ -97,12 +111,46 @@ namespace DesktopApp
             {
                 CommitBtn.Visibility = Visibility.Visible;
             }
-
-            // Check for files with changes.
-            string toAdd = gc.gitCommand("ls-files --other");
-            string toCommit = gc.gitCommand("ls-files --modified");
-            Directory.Text = gc.gitCommand("ls-files -t") + toAdd;
             
+            if (hasAdd)
+            {
+                Directory.Text = toAdd;
+            } else if (hasCommit)
+            {
+                Directory.Text = toCommit;
+            } else
+            {
+                Directory.Text = gc.gitCommand("ls-files");
+            }
+
+        }
+
+        private void UpdateBranches()
+        {
+            // Make sure branches are up to date
+            Branches.Items.Clear();
+
+            string line;
+
+            string branches = gc.gitCommand("branch");
+            StringReader readBranch = new StringReader(branches);
+            Branches.Items.Add("<branches>");
+            while (true)
+            {
+                line = readBranch.ReadLine();
+                if (line != null)
+                {
+                    Branches.Items.Add(line.Substring(2));
+                    if (line.Substring(0, 1) == "*")
+                    {
+                        Branches.SelectedItem = line.Substring(2);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
 
         private void GitPath_GotFocus(object sender, RoutedEventArgs e)
@@ -146,7 +194,7 @@ namespace DesktopApp
 
         private void Push(object sender, RoutedEventArgs e)
         {
-            this.branch = "master"; // Remove once branch handling is put in place.
+            this.branch = Branches.SelectedItem.ToString(); // Remove once branch handling is put in place.
             Output.Text = gc.gitCommand("push --set-upstream origin " + this.branch);
             
         }
@@ -156,6 +204,15 @@ namespace DesktopApp
             this.branch = "master"; // Remove once branch handling is put in place.
             Output.Text = gc.gitCommand("pull");
 
+        }
+
+        private void Branches_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(Branches.SelectedItem is null))
+            {
+                gc.gitCommand("checkout " + Branches.SelectedItem.ToString());
+                RunUpdate();
+            }
         }
     }
 }
