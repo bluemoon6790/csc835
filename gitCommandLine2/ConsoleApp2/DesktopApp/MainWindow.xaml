@@ -16,8 +16,12 @@
                 <DropShadowEffect Direction="285" BlurRadius="3" ShadowDepth="2"/>
             </Button.Effect>
         </Button>
-        <Button Content="Stage All" HorizontalAlignment="Left" Margin="177,362,0,0" VerticalAlignment="Top" Width="75" Name="AddAll" Visibility="Hidden" Click="AddAll_Click" Height="30" Background="#FF008EA2" Foreground="White"/>
-        <Button Content="Commit Staged" HorizontalAlignment="Left" Margin="282,362,0,0" VerticalAlignment="Top" Width="120" Click="Commit_Click" Name="CommitBtn" Height="30" Background="#FF008EA2" Foreground="White">
+        <Button Content="Stage All" HorizontalAlignment="Left" Margin="177,362,0,0" VerticalAlignment="Top" Width="75" Name="AddAll" Visibility="Hidden" Click="AddAll_Click" Height="30" Background="#FFe60000" Foreground="White" BorderThickness="0">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="3" ShadowDepth="2" Direction="285"/>
+            </Button.Effect>
+        </Button>
+        <Button Content="Commit Staged" HorizontalAlignment="Left" Margin="282,362,0,0" VerticalAlignment="Top" Width="120" Click="Commit_Click" Name="CommitBtn" Height="30" Background="#FF00d43f" Foreground="White" BorderThickness="0">
             <Button.Effect>
                 <DropShadowEffect BlurRadius="3" ShadowDepth="2" Direction="285"/>
             </Button.Effect>
